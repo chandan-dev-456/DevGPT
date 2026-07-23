@@ -1,36 +1,41 @@
-import express from 'express'
-import 'dotenv/config';
-import { GoogleGenAI } from "@google/genai";
-import { model } from 'mongoose';
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
 
-const app = express()
-app.use(express.json())
-// app.use(cors());
+import chatRoutes from "./routes/chatRoutes.js";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY
-});
+const app = express();
 
-app.post("/test", async (req, res) => {
-  try {
-    const interaction = await ai.interactions.create({
-      model: "gemini-3.5-flash",
-      input: "What is google?"
-    });
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+	})
+);
 
-    res.status(200).json({
-      role: "assistant",
-      message: interaction.output_text
-    });
+app.use(express.json());
 
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({
-      error: "Something went wrong"
-    });
-  }
-});
 
-app.listen(3000 , async(req , res)=>{
-  console.log(`server running on http://localhost:3000`);
-})
+app.use("/",chatRoutes);
+app.use("/devgpt", chatRoutes);
+
+const connectDB = async () => {
+	try {
+		await mongoose.connect(process.env.MONGO_URI);
+		console.log("✅ MongoDB Connected");
+	} catch (err) {
+		console.error("MongoDB Connection Error");
+		console.error(err);
+		process.exit(1);
+	}
+};
+
+const startServer = async () => {
+	await connectDB();
+
+	app.listen(3000, () => {
+		console.log("🚀 Server running on port 3000");
+	});
+};
+
+startServer();

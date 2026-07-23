@@ -22,7 +22,7 @@
 .message {
     max-width: 75%;
     padding: 14px 18px;
-    border-radius: 12px;
+    border-radius: 14px;
     line-height: 1.6;
     word-break: break-word;
 }
@@ -30,13 +30,20 @@
 .message.user {
     align-self: flex-end;
     background: #2563eb;
+    color: white;
 }
 
 .message.assistant {
     align-self: flex-start;
-    background: #1f2937;
+    background: #27272a;
+    color: white;
 }
-
+.message-header {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
 .input-box {
     display: flex;
     gap: 12px;

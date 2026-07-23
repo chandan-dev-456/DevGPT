@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const ThreadSchema = new mongoose.Schema(
 {
-    threadId: {
-        type: String,
-        unique: true,
-        required: true
-    },
+    // user: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //     required: true
+    // },
 
     title: {
         type: String,
